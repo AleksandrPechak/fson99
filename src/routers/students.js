@@ -9,6 +9,6 @@ const router = Router();
 
 router.get('/students', ctrlWrapper(getStudentsController));
 
-router.get('/students/:studentId', ctrlWrapper(getStudentByIdController));
+// router.get('/students/:studentId', ctrlWrapper(getStudentByIdController));
 
 export default router;

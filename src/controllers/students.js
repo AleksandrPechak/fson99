@@ -6,11 +6,29 @@ import {
   updateStudent,
 } from '../services/students.js';
 import createHttpError from 'http-errors';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllStudentsController = async (req, res) => {
-  const students = await getAllStudents();
+  const { page, perPage } = parsePaginationParams(req.query);
 
-  res.status(200).json({
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+
+  const filter = parseFilterParams(req.query);
+
+  const students = await getAllStudents({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+    userId: req.user._id,
+  });
+
+  res.json({
+    status: 200,
+    message: 'Successfully found students!',
     data: students,
   });
 };
@@ -32,7 +50,7 @@ export const getStudentByIdController = async (req, res, next) => {
 };
 
 export const createStudentController = async (req, res) => {
-  const student = await createStudent(req.body);
+  const student = await createStudent(req.body, req.user._id);
 
   res.status(201).json({
     status: 201,

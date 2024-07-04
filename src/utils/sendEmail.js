@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { EMAIL_VARS } from '../constants';
+import { EMAIL_VARS } from '../constants/index.js';
 import { env } from './env.js';
 
 const tansport = nodemailer.createTransport({
